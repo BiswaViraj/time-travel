@@ -2,9 +2,11 @@
   "name": "undo-redo",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "tsc && node dist/index.js",
+    "lint": "eslint . --ext .ts",
+    "build": "npx tsc"
   },
   "repository": {
     "type": "git",
@@ -15,5 +17,11 @@
   "bugs": {
     "url": "https://github.com/BiswaViraj/undo-redo/issues"
   },
-  "homepage": "https://github.com/BiswaViraj/undo-redo#readme"
+  "homepage": "https://github.com/BiswaViraj/undo-redo#readme",
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.11.0",
+    "@typescript-eslint/parser": "^5.11.0",
+    "eslint": "^8.9.0",
+    "typescript": "^4.5.5"
+  }
 }
