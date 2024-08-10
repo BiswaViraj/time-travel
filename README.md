@@ -61,7 +61,7 @@ console.log(history.get()); // Output: 7
 
 // Undo the last change
 history.undo();
-console.log(history.get()); // Output: 5
+console.log(history.get()); // Output: 6
 
 // Redo the undone change
 history.redo();
