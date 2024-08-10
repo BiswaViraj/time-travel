@@ -3,6 +3,8 @@
 It is a simple TypeScript library for managing undo/redo functionality with a time-travel mechanism. It's designed to keep track of changes in state, allowing you to navigate back and forth through history with ease.
 
 [![npm version](https://badge.fury.io/js/@biswaviraj%2Ftime-travel.svg)](https://badge.fury.io/js/@biswaviraj%2Ftime-travel)
+![Minified + Gzipped size](https://badgen.net/bundlephobia/minzip/@biswaviraj/time-travel)
+![Minified size](https://badgen.net/bundlephobia/min/@biswaviraj/time-travel)
 
 ## Installation
 
