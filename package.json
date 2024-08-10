@@ -1,6 +1,6 @@
 {
   "name": "@biswaviraj/time-travel",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Simple lightweight undo redo package",
   "main": "dist/index.js",
   "scripts": {
