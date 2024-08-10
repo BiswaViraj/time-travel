@@ -1,4 +1,4 @@
-type TimeTravel<T> = {
+export type TimeTravel<T> = {
   get: () => T;
   add: (newValue: T) => void;
   undo: () => void;
@@ -11,7 +11,7 @@ type History<T> = {
   future: T[];
 };
 
-export default function timeTravel<T>(
+export function timeTravel<T>(
   initialValue: T | T[],
   { limit = 10 }: { limit?: number }
 ): TimeTravel<T> {
@@ -76,5 +76,3 @@ export default function timeTravel<T>(
     redo,
   };
 }
-
-const test = timeTravel(0, { limit: 3 });
