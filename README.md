@@ -51,7 +51,7 @@ console.log(history.get()); // Output: 3
 import { timeTravel } from "@biswaviraj/time-travel";
 
 // Create a time travel instance with an initial array value
-const history = timeTravel<number[]>([1, 2, 3], { limit: 5 });
+const history = timeTravel<number>([1, 2, 3], { limit: 5 });
 
 // Add new array values
 history.add([4, 5]);
@@ -79,7 +79,7 @@ import { timeTravel } from "@biswaviraj/time-travel";
 type Item = { id: number; name: string };
 
 // Create a time travel instance with an initial array of objects
-const history = timeTravel<Item[]>(
+const history = timeTravel<Item>(
   [
     { id: 1, name: "Item 1" },
     { id: 2, name: "Item 2" },
