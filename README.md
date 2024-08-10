@@ -53,7 +53,8 @@ const history = timeTravel<number[]>([1, 2, 3], { limit: 5 });
 
 // Add new array values
 history.add([4, 5]);
-history.add([6, 7]);
+history.add(6); // can add single values as well
+history.add([7]);
 
 // Get the current value
 console.log(history.get()); // Output: 7
