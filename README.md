@@ -21,7 +21,7 @@ Here's how you can use the time travel package in your TypeScript project:
 #### Basic Example
 
 ```typescript
-import { timeTravel } from "time-travel";
+import { timeTravel } from "@biswaviraj/time-travel";
 
 // Create a time travel instance with an initial value
 const history = timeTravel<number>(0, { limit: 5 });
@@ -46,7 +46,7 @@ console.log(history.get()); // Output: 3
 #### Example with Arrays
 
 ```typescript
-import { timeTravel } from "time-travel";
+import { timeTravel } from "@biswaviraj/time-travel";
 
 // Create a time travel instance with an initial array value
 const history = timeTravel<number[]>([1, 2, 3], { limit: 5 });
@@ -71,7 +71,7 @@ console.log(history.get()); // Output: 7
 #### Example with Array of Objects
 
 ```typescript
-import { timeTravel } from "time-travel";
+import { timeTravel } from "@biswaviraj/time-travel";
 
 // Define a type for our objects
 type Item = { id: number; name: string };
