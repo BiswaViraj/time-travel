@@ -86,32 +86,26 @@ const history = timeTravel<Item[]>(
 );
 
 // Add new array of objects
-history.add([
-  { id: 1, name: "Item 1" },
-  { id: 2, name: "Item 2" },
-  { id: 3, name: "Item 3" },
-]);
+history.add({ id: 3, name: "Item 3" });
 
 history.add([
-  { id: 1, name: "Item 1" },
-  { id: 2, name: "Item 2" },
-  { id: 3, name: "Item 3" },
   { id: 4, name: "Item 4" },
+  { id: 5, name: "Item 5" },
 ]);
 
 // Get the current state
 console.log(history.get());
-// Output: [{ id: 1, name: 'Item 1' }, { id: 2, name: 'Item 2' }, { id: 3, name: 'Item 3' }, { id: 4, name: 'Item 4' }]
+// Output: { id: 5, name: 'Item 5' }
 
 // Undo the last change
 history.undo();
 console.log(history.get());
-// Output: [{ id: 1, name: 'Item 1' }, { id: 2, name: 'Item 2' }, { id: 3, name: 'Item 3' }]
+// Output: { id: 4, name: 'Item 4' }
 
 // Redo the undone change
 history.redo();
 console.log(history.get());
-// Output: [{ id: 1, name: 'Item 1' }, { id: 2, name: 'Item 2' }, { id: 3, name: 'Item 3' }, { id: 4, name: 'Item 4' }]
+// Output: { id: 5, name: 'Item 5' }
 ```
 
 ## API
