@@ -1,7 +1,7 @@
 {
   "name": "@biswaviraj/time-travel",
   "version": "2.0.4",
-  "description": "Simple lightweight undo redo package",
+  "description": "Simple and lightweight undo redo package",
   "main": "dist/index.js",
   "scripts": {
     "start": "tsc && node dist/index.js",
@@ -10,14 +10,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/BiswaViraj/undo-redo.git"
+    "url": "git+https://github.com/BiswaViraj/time-travel.git"
   },
   "author": "BiswaViraj",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/BiswaViraj/undo-redo/issues"
+    "url": "https://github.com/BiswaViraj/time-travel/issues"
   },
-  "homepage": "https://github.com/BiswaViraj/undo-redo#readme",
+  "homepage": "https://github.com/BiswaViraj/time-travel#readme",
   "keywords": [
     "undo",
     "redo",
