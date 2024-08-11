@@ -25,10 +25,22 @@ export function timeTravel<T>(
     future: [],
   };
 
+  /**
+   *
+   * @returns the current value
+   */
   function get(): T {
     return history.present;
   }
 
+  /**
+   * Add a new value to the history
+   * @param newValue
+   * @returns void
+   * @example
+   * add(1)
+   * add([1, 2, 3])
+   */
   function add(newValue: T | T[]): void {
     const currentVal = history.present;
 
@@ -47,6 +59,10 @@ export function timeTravel<T>(
     history.present = finalValue;
   }
 
+  /**
+   * Undo the last change
+   * @returns void
+   */
   function undo(): void {
     if (!history.past.length) return;
     if (history.future.length >= limit) {
@@ -56,6 +72,10 @@ export function timeTravel<T>(
     history.present = history.past.pop();
   }
 
+  /**
+   * Redo the last change
+   * @returns void
+   */
   function redo(): void {
     if (!history.future.length) return;
     if (history.past.length >= limit) {
