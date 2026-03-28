@@ -11,7 +11,7 @@ export default defineConfig([
     clean: true,
     format: ["esm", "cjs"],
     platform: "neutral",
-    target: "es2015",
+    target: "es2020",
     sourcemap: true,
     dts: {
       sourcemap: true,
@@ -29,7 +29,7 @@ export default defineConfig([
     clean: false,
     format: ["iife"],
     platform: "browser",
-    target: "es2015",
+    target: "es2020",
     globalName: "TimeTravel",
     sourcemap: true,
     minify: true,
