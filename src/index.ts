@@ -61,7 +61,9 @@ export function timeTravel<T>(
       history.future.shift();
     }
     history.future.push(history.present);
-    history.present = history.past.pop()!;
+    const previous = history.past.pop();
+    if (previous === undefined) return undefined;
+    history.present = previous;
     notify();
     return history.present;
   }
@@ -72,7 +74,9 @@ export function timeTravel<T>(
       history.past.shift();
     }
     history.past.push(history.present);
-    history.present = history.future.pop()!;
+    const next = history.future.pop();
+    if (next === undefined) return undefined;
+    history.present = next;
     notify();
     return history.present;
   }
@@ -83,10 +87,7 @@ export function timeTravel<T>(
       const steps = Math.abs(n);
       if (steps > history.past.length) return undefined;
       const moving = history.past.splice(history.past.length - steps);
-      history.future.push(
-        history.present,
-        ...moving.slice(1).reverse(),
-      );
+      history.future.push(history.present, ...moving.slice(1).reverse());
       if (history.future.length > limit) {
         history.future.splice(0, history.future.length - limit);
       }

@@ -1,4 +1,4 @@
-name: Typecheck, Build & Test
+name: Lint, Typecheck, Build & Test
 
 on:
   pull_request:
@@ -20,6 +20,8 @@ jobs:
           cache: pnpm
 
       - run: pnpm install --frozen-lockfile
+
+      - run: pnpm lint
 
       - run: pnpm run typecheck
 
