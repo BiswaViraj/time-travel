@@ -155,5 +155,3 @@ export function timeTravel<T>(
     subscribe,
   };
 }
-
-export default timeTravel;
