@@ -11,5 +11,5 @@
     "skipLibCheck": true,
     "noEmit": true
   },
-  "include": ["index.ts"]
+  "include": ["src"]
 }
