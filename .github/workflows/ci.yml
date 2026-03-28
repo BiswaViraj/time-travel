@@ -1,4 +1,4 @@
-name: CI
+name: Typecheck, Build & Test
 
 on:
   pull_request:
@@ -7,7 +7,7 @@ on:
     branches: [main]
 
 jobs:
-  test:
+  validate:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -23,6 +23,6 @@ jobs:
 
       - run: pnpm run typecheck
 
-      - run: pnpm test
-
       - run: pnpm run build
+
+      - run: pnpm test
