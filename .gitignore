@@ -3,3 +3,8 @@ node_modules
 dist
 
 .env
+
+# Claude Code / AI tooling
+.agents/
+.claude/
+skills-lock.json
