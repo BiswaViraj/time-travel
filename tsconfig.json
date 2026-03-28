@@ -1,11 +1,15 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
+    "target": "ES2020",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "lib": ["ES2020"],
+    "declaration": true,
+    "declarationMap": true,
+    "isolatedDeclarations": true,
     "esModuleInterop": true,
-    "target": "es6",
-    "moduleResolution": "node",
-    "sourceMap": true,
-    "outDir": "dist"
+    "skipLibCheck": true,
+    "noEmit": true
   },
-  "lib": ["es2015"]
+  "include": ["index.ts"]
 }

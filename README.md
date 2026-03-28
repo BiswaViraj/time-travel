@@ -86,7 +86,7 @@ const history = timeTravel<Item>(
     { id: 1, name: "Item 1" },
     { id: 2, name: "Item 2" },
   ],
-  { limit: 5 }
+  { limit: 5 },
 );
 
 // Add new array of objects
