@@ -10,7 +10,12 @@ export type TimeTravel<T> = {
   /** Adds a new state. Clears the redo stack. */
   add(value: T): void;
 
-  /** Adds multiple states at once. Last element becomes the current value. Empty array is a no-op. */
+  /**
+   * Adds multiple states at once. Last element becomes the current value. Empty array is a no-op.
+   * @example
+   * tt.addMany([1, 2, 3]); // present becomes 3, past gets 1 and 2
+   * tt.addMany([]);         // no-op
+   */
   addMany(values: T[]): void;
 
   /** Moves back one step. Returns the new value, or `undefined` if nothing to undo. */
@@ -19,7 +24,13 @@ export type TimeTravel<T> = {
   /** Moves forward one step. Returns the new value, or `undefined` if nothing to redo. */
   redo(): T | undefined;
 
-  /** Jumps `n` steps through history. Negative = back, positive = forward. Returns `undefined` if out of bounds. */
+  /**
+   * Jumps `n` steps through history. Negative = back, positive = forward. Returns `undefined` if out of bounds.
+   * @example
+   * tt.go(-2); // jump back 2 steps
+   * tt.go(1);  // jump forward 1 step
+   * tt.go(-99); // undefined (out of bounds, state unchanged)
+   */
   go(n: number): T | undefined;
 
   /** Returns to the initial value and clears all history. */
@@ -34,9 +45,19 @@ export type TimeTravel<T> = {
   /** Number of steps available in each direction. */
   readonly size: { past: number; future: number };
 
-  /** Returns a read-only snapshot of the full history state. */
+  /**
+   * Returns a read-only snapshot of the full history state.
+   * @example
+   * tt.getHistory(); // { past: [0, 1], present: 2, future: [3] }
+   */
   getHistory(): Readonly<{ past: T[]; present: T; future: T[] }>;
 
-  /** Registers a listener that fires on any state change. Returns an unsubscribe function. */
+  /**
+   * Registers a listener that fires on any state change. Returns an unsubscribe function.
+   * @example
+   * const unsub = tt.subscribe((state) => console.log(state));
+   * tt.add(1); // logs 1
+   * unsub();
+   */
   subscribe(listener: (state: T) => void): () => void;
 };
