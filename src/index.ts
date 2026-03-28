@@ -10,18 +10,17 @@ type History<T> = {
 
 export function timeTravel<T>(
   initialValue: T,
-  options?: TimeTravelOptions
+  options?: TimeTravelOptions,
 ): TimeTravel<T> {
   const limit = options?.limit ?? 10;
   const _initialValue = initialValue;
+  let subscribers: Set<(state: T) => void> | null = null;
 
   const history: History<T> = {
     past: [],
     present: initialValue,
     future: [],
   };
-
-  let subscribers: Set<(state: T) => void> | null = null;
 
   function notify(): void {
     if (subscribers) {
@@ -50,7 +49,8 @@ export function timeTravel<T>(
     const all = [history.present, ...values];
     history.present = all[all.length - 1];
     const newPast = [...history.past, ...all.slice(0, all.length - 1)];
-    history.past = newPast.length > limit ? newPast.slice(newPast.length - limit) : newPast;
+    history.past =
+      newPast.length > limit ? newPast.slice(newPast.length - limit) : newPast;
     history.future = [];
     notify();
   }
@@ -83,7 +83,10 @@ export function timeTravel<T>(
       const steps = Math.abs(n);
       if (steps > history.past.length) return undefined;
       const moving = history.past.splice(history.past.length - steps);
-      history.future.push(history.present, ...moving.slice(0, moving.length - 1).reverse());
+      history.future.push(
+        history.present,
+        ...moving.slice(1).reverse(),
+      );
       if (history.future.length > limit) {
         history.future = history.future.slice(history.future.length - limit);
       }
