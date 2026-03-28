@@ -1,7 +1,7 @@
 import { defineConfig } from "tsdown";
 
 const entry = {
-  index: "index.ts",
+  index: "src/index.ts",
 };
 
 export default defineConfig([
@@ -17,11 +17,6 @@ export default defineConfig([
       sourcemap: true,
     },
     minify: false,
-    inputOptions: {
-      resolve: {
-        mainFields: ["module", "main"],
-      },
-    },
   },
   {
     entry,

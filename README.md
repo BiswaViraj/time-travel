@@ -1,6 +1,6 @@
 # Time Travel
 
-It is a simple TypeScript library for managing undo/redo functionality with a time-travel mechanism. It's designed to keep track of changes in state, allowing you to navigate back and forth through history with ease.
+Simple and lightweight undo/redo state management for any JavaScript or TypeScript project.
 
 [![npm version](https://img.shields.io/npm/v/@biswaviraj/time-travel)](https://www.npmjs.com/package/@biswaviraj/time-travel)
 ![Minified + Gzipped size](https://badgen.net/bundlephobia/minzip/@biswaviraj/time-travel)
@@ -10,133 +10,197 @@ It is a simple TypeScript library for managing undo/redo functionality with a ti
 
 ```bash
 npm install @biswaviraj/time-travel
+# or
+pnpm add @biswaviraj/time-travel
+```
+
+## Quick Start
+
+```typescript
+import { timeTravel } from "@biswaviraj/time-travel";
+
+const tt = timeTravel<number>(0);
+
+tt.add(1);
+tt.add(2);
+tt.add(3);
+
+tt.get();    // 3
+tt.undo();   // returns 2
+tt.undo();   // returns 1
+tt.redo();   // returns 2
+
+tt.canUndo;  // true
+tt.canRedo;  // true
+tt.size;     // { past: 1, future: 1 }
 ```
 
 ## Features
 
-- **Undo/Redo Functionality**: Easily navigate through past states and reapply changes.
-- **History Management**: Manage a configurable history limit to control memory usage.
-- **Simple API**: Intuitive methods for interacting with the history and state.
+- **Undo/Redo** with return values
+- **History navigation** — jump N steps with `go(n)`
+- **Batch operations** — add multiple states at once with `addMany()`
+- **Introspection** — `canUndo`, `canRedo`, `size`, `getHistory()`
+- **Opt-in reactivity** — `subscribe()` for state change notifications
+- **Configurable history limit** to control memory usage
+- **Zero dependencies**, fully typed
 
 ## Usage
 
-Here's how you can use the time travel package in your TypeScript project:
-
-#### Basic Example
+### Basic
 
 ```typescript
 import { timeTravel } from "@biswaviraj/time-travel";
 
-// Create a time travel instance with an initial value
-const history = timeTravel<number>(0, { limit: 5 });
+const tt = timeTravel<string>("hello", { limit: 20 });
 
-// Add new values
-history.add(1);
-history.add(2);
-history.add(3);
+tt.add("world");
+tt.get(); // "world"
 
-// Get the current value
-console.log(history.get()); // Output: 3
-
-// Undo the last change
-history.undo();
-console.log(history.get()); // Output: 2
-
-// Redo the undone change
-history.redo();
-console.log(history.get()); // Output: 3
+tt.undo(); // returns "hello"
+tt.redo(); // returns "world"
 ```
 
-#### Example with Arrays
+### With Arrays as State
 
 ```typescript
-import { timeTravel } from "@biswaviraj/time-travel";
+const tt = timeTravel<number[]>([1, 2, 3]);
 
-// Create a time travel instance with an initial array value
-const history = timeTravel<number>([1, 2, 3], { limit: 5 });
+tt.add([4, 5, 6]);
+tt.get(); // [4, 5, 6]
 
-// Add new array values
-history.add([4, 5]);
-history.add(6); // can add single values as well
-history.add([7]);
-
-// Get the current value
-console.log(history.get()); // Output: 7
-
-// Undo the last change
-history.undo();
-console.log(history.get()); // Output: 6
-
-// Redo the undone change
-history.redo();
-console.log(history.get()); // Output: 7
+tt.undo();
+tt.get(); // [1, 2, 3]
 ```
 
-#### Example with Array of Objects
+### With Objects
 
 ```typescript
-import { timeTravel } from "@biswaviraj/time-travel";
+type User = { id: number; name: string };
 
-// Define a type for our objects
-type Item = { id: number; name: string };
+const tt = timeTravel<User>({ id: 1, name: "Alice" });
 
-// Create a time travel instance with an initial array of objects
-const history = timeTravel<Item>(
-  [
-    { id: 1, name: "Item 1" },
-    { id: 2, name: "Item 2" },
-  ],
-  { limit: 5 },
-);
+tt.add({ id: 2, name: "Bob" });
+tt.add({ id: 3, name: "Charlie" });
 
-// Add new array of objects
-history.add({ id: 3, name: "Item 3" });
+tt.get(); // { id: 3, name: "Charlie" }
+tt.undo(); // returns { id: 2, name: "Bob" }
+```
 
-history.add([
-  { id: 4, name: "Item 4" },
-  { id: 5, name: "Item 5" },
-]);
+### Batch Add
 
-// Get the current state
-console.log(history.get());
-// Output: { id: 5, name: 'Item 5' }
+```typescript
+const tt = timeTravel<number>(0);
 
-// Undo the last change
-history.undo();
-console.log(history.get());
-// Output: { id: 4, name: 'Item 4' }
+tt.addMany([1, 2, 3, 4, 5]);
+tt.get(); // 5
+tt.size;  // { past: 5, future: 0 }
+```
 
-// Redo the undone change
-history.redo();
-console.log(history.get());
-// Output: { id: 5, name: 'Item 5' }
+### History Navigation
+
+```typescript
+const tt = timeTravel<string>("a");
+tt.add("b");
+tt.add("c");
+tt.add("d");
+
+tt.go(-2); // returns "b" (jumped back 2 steps)
+tt.go(1);  // returns "c" (jumped forward 1 step)
+tt.go(-99); // returns undefined (out of bounds, state unchanged)
+```
+
+### Reset
+
+```typescript
+const tt = timeTravel<number>(0);
+tt.add(1);
+tt.add(2);
+
+tt.reset();
+tt.get();    // 0
+tt.canUndo;  // false
+tt.canRedo;  // false
+```
+
+### Inspecting History
+
+```typescript
+const tt = timeTravel<number>(0);
+tt.add(1);
+tt.add(2);
+tt.undo();
+
+tt.getHistory();
+// { past: [0], present: 1, future: [2] }
+```
+
+### Subscribe to Changes
+
+```typescript
+const tt = timeTravel<number>(0);
+
+const unsubscribe = tt.subscribe((state) => {
+  console.log("State changed:", state);
+});
+
+tt.add(1);   // logs "State changed: 1"
+tt.undo();   // logs "State changed: 0"
+
+unsubscribe();
+tt.add(2);   // no log
 ```
 
 ## API
 
-`timeTravel<T>(initialValue: T | T[], options?: { limit?: number })`
+### `timeTravel<T>(initialValue: T, options?: { limit?: number })`
+
 Creates a time travel instance.
 
-- initialValue: The initial state, which can be a single value or an array of values.
-- options: Optional configuration object.
-  - limit: The maximum number of past and future states to keep. Defaults to 10.
+- `initialValue` — the initial state
+- `options.limit` — max number of past/future states to keep (default: `10`)
 
-The time travel library provides the following methods for managing history:
+### Methods
 
-- `add(value: T): void`: Add a new value to the history.
+| Method | Returns | Description |
+|--------|---------|-------------|
+| `get()` | `T` | Get current value |
+| `add(value)` | `void` | Add a new state |
+| `addMany(values)` | `void` | Batch add states (last becomes current) |
+| `undo()` | `T \| undefined` | Go back one step, returns new value |
+| `redo()` | `T \| undefined` | Go forward one step, returns new value |
+| `go(n)` | `T \| undefined` | Jump N steps (negative = back, positive = forward) |
+| `reset()` | `void` | Return to initial value, clear history |
+| `getHistory()` | `Readonly<History>` | Read-only snapshot of `{ past, present, future }` |
+| `subscribe(fn)` | `() => void` | Listen for changes, returns unsubscribe function |
 
-- `get(): T`: Get the current value from the history.
+### Properties
 
-- `undo(): void`: Undo the last change and move back in history.
+| Property | Type | Description |
+|----------|------|-------------|
+| `canUndo` | `boolean` | Whether undo is available |
+| `canRedo` | `boolean` | Whether redo is available |
+| `size` | `{ past, future }` | Number of steps in each direction |
 
-- `redo(): void`: Redo the last undone change and move forward in history.
+## TypeScript
 
-## TypeScript Support
+Written in TypeScript with full type definitions. Generic `T` gives you type safety for any state shape.
 
-The library is written in TypeScript and provides type definitions out of the box. This ensures you get proper type checking and autocompletion when using the library in your TypeScript projects.
+```typescript
+// Type is inferred
+const tt = timeTravel(0);         // TimeTravel<number>
+const tt = timeTravel("hello");   // TimeTravel<string>
+
+// Or explicit
+const tt = timeTravel<User>({ id: 1, name: "Alice" });
+```
 
 ## Contributing
 
-Feel free to contribute to the project by submitting issues or pull requests. Please follow the standard GitHub workflow for contributions.
+Contributions welcome! Please open an issue or submit a pull request.
 
-For more information or to report issues, please visit the [GitHub repository](https://github.com/biswaviraj/time-travel).
+For more information, visit the [GitHub repository](https://github.com/BiswaViraj/time-travel).
+
+## License
+
+ISC
