@@ -12,7 +12,8 @@ export function timeTravel<T>(
   initialValue: T,
   options?: TimeTravelOptions,
 ): TimeTravel<T> {
-  const limit = options?.limit ?? 10;
+  const rawLimit = options?.limit ?? 10;
+  const limit = Number.isInteger(rawLimit) && rawLimit > 0 ? rawLimit : 10;
   const _initialValue = initialValue;
   let subscribers: Set<(state: T) => void> | null = null;
 
@@ -127,8 +128,9 @@ export function timeTravel<T>(
     }
     subscribers.add(listener);
     return () => {
-      subscribers!.delete(listener);
-      if (subscribers!.size === 0) {
+      if (!subscribers) return;
+      subscribers.delete(listener);
+      if (subscribers.size === 0) {
         subscribers = null;
       }
     };
