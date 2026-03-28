@@ -1,32 +1,32 @@
 import { defineConfig } from "tsdown";
 
 const entry = {
-  index: "src/index.ts",
+	index: "src/index.ts",
 };
 
 export default defineConfig([
-  {
-    entry,
-    outDir: "dist",
-    clean: true,
-    format: ["esm", "cjs"],
-    platform: "neutral",
-    target: "es2020",
-    sourcemap: true,
-    dts: {
-      sourcemap: true,
-    },
-    minify: false,
-  },
-  {
-    entry,
-    outDir: "dist",
-    clean: false,
-    format: ["iife"],
-    platform: "browser",
-    target: "es2020",
-    globalName: "TimeTravel",
-    sourcemap: true,
-    minify: true,
-  },
+	{
+		clean: true,
+		dts: {
+			sourcemap: true,
+		},
+		entry,
+		format: ["esm", "cjs"],
+		minify: false,
+		outDir: "dist",
+		platform: "neutral",
+		sourcemap: true,
+		target: "es2020",
+	},
+	{
+		clean: false,
+		entry,
+		format: ["iife"],
+		globalName: "TimeTravel",
+		minify: true,
+		outDir: "dist",
+		platform: "browser",
+		sourcemap: true,
+		target: "es2020",
+	},
 ]);

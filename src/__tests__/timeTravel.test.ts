@@ -241,7 +241,7 @@ describe("reset", () => {
 		tt.reset();
 		expect(tt.canUndo).toBe(false);
 		expect(tt.canRedo).toBe(false);
-		expect(tt.size).toEqual({ past: 0, future: 0 });
+		expect(tt.size).toEqual({ future: 0, past: 0 });
 	});
 
 	it("should work with object initial value", () => {
@@ -279,12 +279,12 @@ describe("introspection", () => {
 
 	it("size should reflect past and future counts", () => {
 		const tt = timeTravel(0);
-		expect(tt.size).toEqual({ past: 0, future: 0 });
+		expect(tt.size).toEqual({ future: 0, past: 0 });
 		tt.add(1);
 		tt.add(2);
-		expect(tt.size).toEqual({ past: 2, future: 0 });
+		expect(tt.size).toEqual({ future: 0, past: 2 });
 		tt.undo();
-		expect(tt.size).toEqual({ past: 1, future: 1 });
+		expect(tt.size).toEqual({ future: 1, past: 1 });
 	});
 
 	it("getHistory should return correct snapshot", () => {
@@ -293,9 +293,9 @@ describe("introspection", () => {
 		tt.add(2);
 		tt.undo();
 		expect(tt.getHistory()).toEqual({
+			future: [2],
 			past: [0],
 			present: 1,
-			future: [2],
 		});
 	});
 
