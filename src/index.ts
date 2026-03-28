@@ -14,7 +14,6 @@ export function timeTravel<T>(
 ): TimeTravel<T> {
   const rawLimit = options?.limit ?? 10;
   const limit = Number.isInteger(rawLimit) && rawLimit > 0 ? rawLimit : 10;
-  const _initialValue = initialValue;
   let subscribers: Set<(state: T) => void> | null = null;
 
   const history: History<T> = {
@@ -47,11 +46,11 @@ export function timeTravel<T>(
 
   function addMany(values: T[]): void {
     if (values.length === 0) return;
-    const all = [history.present, ...values];
-    history.present = all[all.length - 1];
-    const newPast = [...history.past, ...all.slice(0, all.length - 1)];
-    history.past =
-      newPast.length > limit ? newPast.slice(newPast.length - limit) : newPast;
+    history.past.push(history.present, ...values.slice(0, -1));
+    history.present = values[values.length - 1];
+    if (history.past.length > limit) {
+      history.past.splice(0, history.past.length - limit);
+    }
     history.future = [];
     notify();
   }
@@ -89,7 +88,7 @@ export function timeTravel<T>(
         ...moving.slice(1).reverse(),
       );
       if (history.future.length > limit) {
-        history.future = history.future.slice(history.future.length - limit);
+        history.future.splice(0, history.future.length - limit);
       }
       history.present = moving[0];
       notify();
@@ -99,7 +98,7 @@ export function timeTravel<T>(
       const moving = history.future.splice(history.future.length - n);
       history.past.push(history.present, ...moving.slice(1).reverse());
       if (history.past.length > limit) {
-        history.past = history.past.slice(history.past.length - limit);
+        history.past.splice(0, history.past.length - limit);
       }
       history.present = moving[0];
       notify();
@@ -109,7 +108,7 @@ export function timeTravel<T>(
 
   function reset(): void {
     history.past = [];
-    history.present = _initialValue;
+    history.present = initialValue;
     history.future = [];
     notify();
   }
