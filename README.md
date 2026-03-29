@@ -44,6 +44,7 @@ tt.size;     // { past: 1, future: 1 }
 - **Opt-in reactivity** — `subscribe()` for state change notifications
 - **Configurable history limit** to control memory usage
 - **Zero dependencies**, fully typed
+- **React hook** — `useTimeTravel` for reactive undo/redo in React components
 
 ## Usage
 
@@ -151,6 +152,27 @@ unsubscribe();
 tt.add(2);   // no log
 ```
 
+### React Hook
+
+```typescript
+import { useTimeTravel } from "@biswaviraj/time-travel/react"
+
+function Counter() {
+  const { state, add, undo, redo, canUndo, canRedo } = useTimeTravel(0)
+
+  return (
+    <div>
+      <p>Count: {state}</p>
+      <button onClick={() => add(state + 1)}>Increment</button>
+      <button onClick={() => undo()} disabled={!canUndo}>Undo</button>
+      <button onClick={() => redo()} disabled={!canRedo}>Redo</button>
+    </div>
+  )
+}
+```
+
+The hook returns all core methods plus a reactive `state` property that triggers re-renders. Requires React 18+.
+
 ## API
 
 ### `timeTravel<T>(initialValue: T, options?: { limit?: number })`
@@ -181,6 +203,18 @@ Creates a time travel instance.
 | `canUndo` | `boolean` | Whether undo is available |
 | `canRedo` | `boolean` | Whether redo is available |
 | `size` | `{ past, future }` | Number of steps in each direction |
+
+### React
+
+```ts
+import { useTimeTravel } from "@biswaviraj/time-travel/react"
+```
+
+`useTimeTravel<T>(initialValue: T, options?)` — returns all core methods and properties plus:
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `state` | `T` | Reactive current value (triggers re-render) |
 
 ## TypeScript
 

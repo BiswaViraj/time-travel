@@ -2,6 +2,7 @@ import { defineConfig } from "tsdown";
 
 const entry = {
 	index: "src/index.ts",
+	react: "src/react/index.ts",
 };
 
 export default defineConfig([
@@ -11,6 +12,7 @@ export default defineConfig([
 			sourcemap: true,
 		},
 		entry,
+		external: ["react"],
 		format: ["esm", "cjs"],
 		minify: false,
 		outDir: "dist",
@@ -20,7 +22,7 @@ export default defineConfig([
 	},
 	{
 		clean: false,
-		entry,
+		entry: { index: "src/index.ts" },
 		format: ["iife"],
 		globalName: "TimeTravel",
 		minify: true,

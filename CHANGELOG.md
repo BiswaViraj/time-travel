@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [3.1.0] - 2026-03-29
+
+### Added
+
+- `useTimeTravel` React hook via `@biswaviraj/time-travel/react`
+- React 18+ support via `useSyncExternalStore`
+
 ## [3.0.0] - 2026-03-28
 
 ### Breaking Changes
