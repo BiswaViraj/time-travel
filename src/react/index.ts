@@ -13,16 +13,21 @@ export function useTimeTravel<T>(
 	initialValue: T,
 	options?: TimeTravelOptions,
 ): UseTimeTravel<T> {
-	const ref = useRef<TimeTravel<T>>(undefined);
-	if (!ref.current) {
-		ref.current = timeTravel(initialValue, options);
+	type Mutable = TimeTravel<T> & { state: T };
+
+	const resultRef = useRef<Mutable>(undefined);
+	if (!resultRef.current) {
+		const tt = timeTravel(initialValue, options);
+		resultRef.current = Object.assign(Object.create(tt), {
+			state: tt.get(),
+		});
 	}
-	const tt = ref.current;
 
-	const state = useSyncExternalStore(tt.subscribe, tt.get, tt.get);
+	resultRef.current.state = useSyncExternalStore(
+		resultRef.current.subscribe,
+		resultRef.current.get,
+		resultRef.current.get,
+	);
 
-	return {
-		...tt,
-		state,
-	};
+	return resultRef.current;
 }
