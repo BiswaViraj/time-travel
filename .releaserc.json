@@ -5,13 +5,6 @@
 		"@semantic-release/release-notes-generator",
 		"@semantic-release/changelog",
 		["@semantic-release/npm", { "pkgRoot": ".", "provenance": true }],
-		[
-			"@semantic-release/git",
-			{
-				"assets": ["package.json", "CHANGELOG.md"],
-				"message": "chore(release): ${nextRelease.version}"
-			}
-		],
 		"@semantic-release/github"
 	]
 }
