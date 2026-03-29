@@ -7,7 +7,14 @@
 	"description": "Simple and lightweight undo redo package",
 	"devDependencies": {
 		"@biomejs/biome": "2.4.9",
+		"@testing-library/jest-dom": "^6.9.1",
+		"@testing-library/react": "^16.3.2",
+		"@types/react": "^19.2.14",
+		"@types/react-dom": "^19.2.3",
+		"jsdom": "^29.0.1",
 		"lefthook": "^2.1.4",
+		"react": "^19.2.4",
+		"react-dom": "^19.2.4",
 		"tsdown": "^0.21.6",
 		"typescript": "^5.5.4",
 		"vitest": "^4.1.2"
@@ -22,7 +29,13 @@
 			"require": "./dist/index.js",
 			"types": "./dist/index.d.ts"
 		},
-		"./package.json": "./package.json"
+		"./package.json": "./package.json",
+		"./react": {
+			"default": "./dist/react.mjs",
+			"import": "./dist/react.mjs",
+			"require": "./dist/react.js",
+			"types": "./dist/react.d.ts"
+		}
 	},
 	"files": [
 		"dist"
@@ -36,13 +49,24 @@
 		"time travel",
 		"time-travel",
 		"state history",
-		"rollback"
+		"rollback",
+		"react",
+		"react-hooks",
+		"useTimeTravel"
 	],
 	"license": "ISC",
 	"main": "./dist/index.js",
 	"module": "./dist/index.mjs",
 	"name": "@biswaviraj/time-travel",
 	"packageManager": "pnpm@10.32.1",
+	"peerDependencies": {
+		"react": ">=18"
+	},
+	"peerDependenciesMeta": {
+		"react": {
+			"optional": true
+		}
+	},
 	"pnpm": {
 		"onlyBuiltDependencies": [
 			"lefthook"
