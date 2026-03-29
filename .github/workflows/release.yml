@@ -12,6 +12,7 @@ jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
+    environment: ENV-Publish-NPM
     permissions:
       contents: write
       issues: write
