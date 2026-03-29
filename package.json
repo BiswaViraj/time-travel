@@ -7,6 +7,8 @@
 	"description": "Simple and lightweight undo redo package",
 	"devDependencies": {
 		"@biomejs/biome": "2.4.9",
+		"@commitlint/cli": "^20.5.0",
+		"@commitlint/config-conventional": "^20.5.0",
 		"@testing-library/react": "^16.3.2",
 		"@types/react": "^19.2.14",
 		"@types/react-dom": "^19.2.3",
