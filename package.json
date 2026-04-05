@@ -1,96 +1,23 @@
 {
-	"author": "BiswaViraj",
-	"browser": "./dist/index.mjs",
-	"bugs": {
-		"url": "https://github.com/BiswaViraj/time-travel/issues"
-	},
-	"description": "Simple and lightweight undo redo package",
 	"devDependencies": {
 		"@biomejs/biome": "2.4.9",
 		"@commitlint/cli": "^20.5.0",
 		"@commitlint/config-conventional": "^20.5.0",
-		"@testing-library/react": "^16.3.2",
-		"@types/react": "^19.2.14",
-		"@types/react-dom": "^19.2.3",
-		"jsdom": "^29.0.1",
-		"lefthook": "^2.1.4",
-		"react": "^19.2.4",
-		"react-dom": "^19.2.4",
-		"tsdown": "^0.21.6",
-		"typescript": "^5.5.4",
-		"vitest": "^4.1.2"
+		"lefthook": "^2.1.4"
 	},
-	"engines": {
-		"node": ">=20.19.0"
-	},
-	"exports": {
-		".": {
-			"default": "./dist/index.mjs",
-			"import": "./dist/index.mjs",
-			"require": "./dist/index.js",
-			"types": "./dist/index.d.ts"
-		},
-		"./package.json": "./package.json",
-		"./react": {
-			"default": "./dist/react.mjs",
-			"import": "./dist/react.mjs",
-			"require": "./dist/react.js",
-			"types": "./dist/react.d.ts"
-		}
-	},
-	"files": [
-		"dist"
-	],
-	"homepage": "https://github.com/BiswaViraj/time-travel#readme",
-	"jsdelivr": "./dist/index.iife.js",
-	"keywords": [
-		"undo",
-		"redo",
-		"history",
-		"time travel",
-		"time-travel",
-		"state history",
-		"rollback",
-		"react",
-		"react-hooks",
-		"useTimeTravel"
-	],
-	"license": "ISC",
-	"main": "./dist/index.js",
-	"module": "./dist/index.mjs",
-	"name": "@biswaviraj/time-travel",
+	"name": "time-travel-workspace",
 	"packageManager": "pnpm@10.32.1",
-	"peerDependencies": {
-		"react": ">=18"
-	},
-	"peerDependenciesMeta": {
-		"react": {
-			"optional": true
-		}
-	},
-	"pnpm": {
-		"onlyBuiltDependencies": [
-			"lefthook"
-		]
-	},
-	"react-native": "./dist/index.mjs",
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/BiswaViraj/time-travel.git"
-	},
+	"private": true,
 	"scripts": {
-		"build": "tsdown",
-		"build:watch": "tsdown --watch",
-		"format": "biome format src/",
-		"format:fix": "biome format --write src/",
-		"lint": "biome check src/",
-		"lint:fix": "biome check --write src/",
-		"test": "vitest run",
-		"test:watch": "vitest",
-		"typecheck": "tsc --noEmit"
-	},
-	"sideEffects": false,
-	"types": "./dist/index.d.ts",
-	"unpkg": "./dist/index.iife.js",
-	"version": "3.0.0"
+		"build": "pnpm --filter @biswaviraj/time-travel build",
+		"build:package": "pnpm --filter @biswaviraj/time-travel build",
+		"build:watch": "pnpm --filter @biswaviraj/time-travel build:watch",
+		"format": "biome format .",
+		"format:fix": "biome format --write .",
+		"lint": "biome check .",
+		"lint:fix": "biome check --write .",
+		"test": "pnpm --filter @biswaviraj/time-travel test",
+		"test:watch": "pnpm --filter @biswaviraj/time-travel test:watch",
+		"typecheck": "pnpm --filter @biswaviraj/time-travel typecheck"
+	}
 }
