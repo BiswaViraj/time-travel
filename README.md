@@ -9,6 +9,7 @@ Simple and lightweight undo/redo state management for any JavaScript or TypeScri
 ## Repository Layout
 
 - `packages/time-travel` contains the published npm package.
+- `apps/docs` contains the public Astro/Starlight documentation site.
 
 ## Installation
 

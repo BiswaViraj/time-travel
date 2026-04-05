@@ -1,0 +1,88 @@
+---
+title: React API
+description: API reference for the useTimeTravel React hook.
+---
+
+import { Aside } from "@astrojs/starlight/components";
+
+<Aside type="note">
+  Requires React 18+. The `react` package is an optional peer dependency.
+</Aside>
+
+## `useTimeTravel<T>(initialValue, options?)`
+
+A React hook that wraps the [core `timeTravel`](/api/core/) instance and provides a reactive `state` property that triggers re-renders.
+
+```tsx
+import { useTimeTravel } from "@biswaviraj/time-travel/react";
+
+const { state, add, undo, redo, canUndo, canRedo } = useTimeTravel(0);
+```
+
+See the [Getting Started](/getting-started/#react) page for a full component example, or the [Examples](/examples/#react-undo-able-counter) page for more patterns.
+
+### Parameters
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `initialValue` | `T` | The initial state value |
+| `options.limit` | `number` | Max past/future states to keep (default: `10`) |
+
+### Returns
+
+`UseTimeTravel<T>` — all [core API](/api/core/) methods and properties, plus:
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `state` | `T` | Reactive current value — triggers re-render on change |
+
+The hook uses `useSyncExternalStore` under the hood, so it's compatible with concurrent features and server-side rendering.
+
+## Usage Patterns
+
+### With Objects
+
+```tsx
+type FormData = { name: string; email: string };
+
+function Form() {
+  const { state, add, undo, canUndo } = useTimeTravel<FormData>({
+    name: "",
+    email: "",
+  });
+
+  const update = (field: keyof FormData, value: string) => {
+    add({ ...state, [field]: value });
+  };
+
+  return (
+    <form>
+      <input
+        value={state.name}
+        onChange={(e) => update("name", e.target.value)}
+      />
+      <input
+        value={state.email}
+        onChange={(e) => update("email", e.target.value)}
+      />
+      <button type="button" onClick={() => undo()} disabled={!canUndo}>
+        Undo
+      </button>
+    </form>
+  );
+}
+```
+
+### With History Limit
+
+```tsx
+const { state, add } = useTimeTravel(0, { limit: 50 });
+```
+
+## Types
+
+```typescript
+type UseTimeTravel<T> = TimeTravel<T> & {
+  readonly state: T;
+};
+```

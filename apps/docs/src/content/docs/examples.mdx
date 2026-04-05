@@ -1,0 +1,190 @@
+---
+title: Examples
+description: Real-world usage patterns for @biswaviraj/time-travel.
+---
+
+## Todo List with Undo
+
+```typescript
+import { timeTravel } from "@biswaviraj/time-travel";
+
+type Todo = { id: number; text: string; done: boolean };
+
+const tt = timeTravel<Todo[]>([]);
+let nextId = 1;
+
+function addTodo(text: string) {
+  tt.add([...tt.get(), { id: nextId++, text, done: false }]);
+}
+
+function toggleTodo(id: number) {
+  tt.add(tt.get().map((t) => (t.id === id ? { ...t, done: !t.done } : t)));
+}
+
+function removeTodo(id: number) {
+  tt.add(tt.get().filter((t) => t.id !== id));
+}
+
+addTodo("Buy groceries");
+addTodo("Walk the dog");
+toggleTodo(1);
+
+tt.get();
+// [{ id: 1, text: "Buy groceries", done: true }, { id: 2, text: "Walk the dog", done: false }]
+
+tt.undo(); // un-toggle: groceries back to done: false
+tt.undo(); // removes "Walk the dog"
+```
+
+## Form with Undo/Redo
+
+```typescript
+import { timeTravel } from "@biswaviraj/time-travel";
+
+type FormState = {
+  name: string;
+  email: string;
+  bio: string;
+};
+
+const form = timeTravel<FormState>(
+  { name: "", email: "", bio: "" },
+  { limit: 30 },
+);
+
+// Simulate user filling out a form
+form.add({ name: "Alice", email: "", bio: "" });
+form.add({ name: "Alice", email: "alice@example.com", bio: "" });
+form.add({ name: "Alice", email: "alice@example.com", bio: "Hello world" });
+
+// User changes their mind about the bio
+form.undo();
+form.get().bio; // ""
+
+// Actually, bring it back
+form.redo();
+form.get().bio; // "Hello world"
+```
+
+## Canvas Drawing with Undo
+
+```typescript
+import { timeTravel } from "@biswaviraj/time-travel";
+
+type Point = { x: number; y: number };
+type Stroke = Point[];
+
+const canvas = timeTravel<Stroke[]>([], { limit: 50 });
+
+function addStroke(stroke: Stroke) {
+  canvas.add([...canvas.get(), stroke]);
+}
+
+addStroke([
+  { x: 0, y: 0 },
+  { x: 10, y: 5 },
+  { x: 20, y: 0 },
+]);
+addStroke([
+  { x: 5, y: 5 },
+  { x: 15, y: 15 },
+]);
+
+canvas.get().length; // 2 strokes
+canvas.undo();
+canvas.get().length; // 1 stroke
+canvas.redo();
+canvas.get().length; // 2 strokes
+```
+
+## Syncing State to localStorage
+
+Use `subscribe` to persist state changes automatically.
+
+```typescript
+import { timeTravel } from "@biswaviraj/time-travel";
+
+const tt = timeTravel<string>("draft");
+
+tt.subscribe((state) => {
+  localStorage.setItem("editor-content", state);
+});
+
+tt.add("draft - updated");
+// localStorage now has "draft - updated"
+
+tt.undo();
+// localStorage now has "draft"
+```
+
+## Bulk Import with Batch Add
+
+Use `addMany` when loading a sequence of states at once, like replaying a history log.
+
+```typescript
+import { timeTravel } from "@biswaviraj/time-travel";
+
+const tt = timeTravel<number>(0);
+
+// Replay a saved history log
+const savedHistory = [1, 2, 3, 4, 5];
+tt.addMany(savedHistory);
+
+tt.get(); // 5
+tt.size;  // { past: 5, future: 0 }
+
+// You can still undo through the entire replayed history
+tt.go(-3); // returns 2
+```
+
+## React: Undo-able Counter
+
+```tsx
+import { useTimeTravel } from "@biswaviraj/time-travel/react";
+
+function Counter() {
+  const { state, add, undo, redo, canUndo, canRedo } = useTimeTravel(0);
+
+  return (
+    <div>
+      <p>Count: {state}</p>
+      <button onClick={() => add(state + 1)}>+1</button>
+      <button onClick={() => add(state - 1)}>-1</button>
+      <button onClick={() => undo()} disabled={!canUndo}>Undo</button>
+      <button onClick={() => redo()} disabled={!canRedo}>Redo</button>
+    </div>
+  );
+}
+```
+
+## React: Color Picker with History
+
+```tsx
+import { useTimeTravel } from "@biswaviraj/time-travel/react";
+
+const colors = ["#ef4444", "#3b82f6", "#22c55e", "#eab308", "#8b5cf6"];
+
+function ColorPicker() {
+  const { state, add, undo, redo, canUndo, canRedo, size } = useTimeTravel(
+    colors[0],
+  );
+
+  return (
+    <div>
+      <div style={{ width: 100, height: 100, backgroundColor: state }} />
+      <div>
+        {colors.map((color) => (
+          <button
+            key={color}
+            style={{ backgroundColor: color, width: 30, height: 30 }}
+            onClick={() => add(color)}
+          />
+        ))}
+      </div>
+      <button onClick={() => undo()} disabled={!canUndo}>Undo</button>
+      <button onClick={() => redo()} disabled={!canRedo}>Redo</button>
+      <p>History: {size.past} undo / {size.future} redo</p>
+    </div>
+  );
+}
+```

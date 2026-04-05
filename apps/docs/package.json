@@ -1,0 +1,23 @@
+{
+	"dependencies": {
+		"@astrojs/starlight": "^0.38.2",
+		"astro": "^6.0.1",
+		"sharp": "^0.34.2",
+		"starlight-theme-rapide": "^0.5.2"
+	},
+	"devDependencies": {
+		"@astrojs/check": "^0.9.4",
+		"typescript": "^5.5.4"
+	},
+	"name": "@biswaviraj/time-travel-docs",
+	"private": true,
+	"scripts": {
+		"astro": "astro",
+		"build": "astro build",
+		"dev": "astro dev",
+		"preview": "astro preview",
+		"typecheck": "astro check"
+	},
+	"type": "module",
+	"version": "0.0.1"
+}
