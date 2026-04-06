@@ -1,0 +1,158 @@
+---
+title: Core API
+description: API reference for the timeTravel factory and all its methods and properties.
+---
+
+## `timeTravel<T>(initialValue, options?)`
+
+Creates a time travel instance.
+
+```typescript
+import { timeTravel } from "@biswaviraj/time-travel";
+
+const counter = timeTravel<number>(0);
+// or with options
+const editor = timeTravel<string>("hello", { limit: 20 });
+```
+
+### Parameters
+
+| Parameter | Type | Description |
+|-----------|------|-------------|
+| `initialValue` | `T` | The initial state value |
+| `options.limit` | `number` | Max past/future states to keep (default: `10`) |
+
+## Methods
+
+### `get()`
+
+Returns the current value.
+
+```typescript
+tt.get(); // 0
+```
+
+### `add(value)`
+
+Adds a new state. Clears the redo stack.
+
+```typescript
+tt.add(1);
+tt.add(2);
+tt.get(); // 2
+```
+
+### `addMany(values)`
+
+Adds multiple states at once. The last element becomes the current value. An empty array is a no-op.
+
+```typescript
+tt.addMany([1, 2, 3]);
+tt.get(); // 3
+tt.size;  // { past: 3, future: 0 }
+```
+
+### `undo()`
+
+Moves back one step. Returns the new value, or `undefined` if there's nothing to undo.
+
+```typescript
+tt.undo(); // returns 2
+tt.undo(); // returns 1
+tt.undo(); // returns undefined (already at start)
+```
+
+### `redo()`
+
+Moves forward one step. Returns the new value, or `undefined` if there's nothing to redo.
+
+```typescript
+tt.redo(); // returns 2
+```
+
+### `go(n)`
+
+Jumps `n` steps through history. Negative values go back, positive values go forward. Returns `undefined` if out of bounds (state is unchanged).
+
+```typescript
+tt.go(-2);  // jump back 2 steps
+tt.go(1);   // jump forward 1 step
+tt.go(-99); // undefined (out of bounds, state unchanged)
+```
+
+### `reset()`
+
+Returns to the initial value and clears all history.
+
+```typescript
+tt.reset();
+tt.get();    // 0 (initial value)
+tt.canUndo;  // false
+tt.canRedo;  // false
+```
+
+### `getHistory()`
+
+Returns a read-only snapshot of the full history state.
+
+```typescript
+tt.getHistory();
+// { past: [0, 1], present: 2, future: [3] }
+```
+
+### `subscribe(listener)`
+
+Registers a listener that fires on any state change. Returns an unsubscribe function.
+
+```typescript
+const unsubscribe = tt.subscribe((state) => {
+  console.log("State changed:", state);
+});
+
+tt.add(1);   // logs "State changed: 1"
+tt.undo();   // logs "State changed: 0"
+
+unsubscribe();
+tt.add(2);   // no log
+```
+
+## Properties
+
+### `canUndo`
+
+`boolean` — Whether there are past states to undo to.
+
+### `canRedo`
+
+`boolean` — Whether there are future states to redo to.
+
+### `size`
+
+`{ past: number; future: number }` — Number of steps available in each direction.
+
+```typescript
+tt.size; // { past: 2, future: 1 }
+```
+
+## Types
+
+```typescript
+type TimeTravelOptions = {
+  limit?: number;
+};
+
+type TimeTravel<T> = {
+  get(): T;
+  add(value: T): void;
+  addMany(values: T[]): void;
+  undo(): T | undefined;
+  redo(): T | undefined;
+  go(n: number): T | undefined;
+  reset(): void;
+  getHistory(): Readonly<{ past: T[]; present: T; future: T[] }>;
+  subscribe(listener: (state: T) => void): () => void;
+  readonly canUndo: boolean;
+  readonly canRedo: boolean;
+  readonly size: { past: number; future: number };
+};
+```

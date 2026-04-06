@@ -1,0 +1,62 @@
+---
+title: Time Travel
+description: Simple and lightweight undo/redo for JavaScript and TypeScript.
+template: splash
+hero:
+  tagline: Simple and lightweight undo/redo for JavaScript and TypeScript.
+  actions:
+    - text: Get Started
+      link: /getting-started/
+      icon: right-arrow
+    - text: API Reference
+      link: /api/core/
+      icon: open-book
+      variant: minimal
+---
+
+import { Code, Card, CardGrid } from "@astrojs/starlight/components";
+
+export const installSnippet = `npm install @biswaviraj/time-travel
+# or
+pnpm add @biswaviraj/time-travel`;
+
+export const quickExample = `import { timeTravel } from "@biswaviraj/time-travel";
+
+const tt = timeTravel<number>(0);
+
+tt.add(1);
+tt.add(2);
+tt.add(3);
+
+tt.get();    // 3
+tt.undo();   // returns 2
+tt.undo();   // returns 1
+tt.redo();   // returns 2
+
+tt.canUndo;  // true
+tt.canRedo;  // true`;
+
+## Install
+
+<Code code={installSnippet} lang="bash" />
+
+## Quick Example
+
+<Code code={quickExample} lang="typescript" />
+
+## Features
+
+<CardGrid>
+  <Card title="Undo / Redo" icon="left-arrow">
+    Step back and forward through state with return values.
+  </Card>
+  <Card title="History Navigation" icon="list-format">
+    Jump N steps with `go(n)` or inspect the full history.
+  </Card>
+  <Card title="React Hook" icon="puzzle">
+    `useTimeTravel` for reactive undo/redo in React components.
+  </Card>
+  <Card title="Zero Dependencies" icon="rocket">
+    Fully typed, tree-shakeable, and under 1kB gzipped.
+  </Card>
+</CardGrid>
