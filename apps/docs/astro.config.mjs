@@ -8,6 +8,7 @@ export default defineConfig({
 	base: "/time-travel",
 	integrations: [
 		starlight({
+			customCss: ["./src/styles/custom.css"],
 			plugins: [starlightThemeRapide()],
 			sidebar: [
 				{ label: "Getting Started", slug: "getting-started" },
@@ -22,6 +23,11 @@ export default defineConfig({
 					href: "https://github.com/BiswaViraj/time-travel",
 					icon: "github",
 					label: "GitHub",
+				},
+				{
+					href: "https://www.npmjs.com/package/time-travel",
+					icon: "npm",
+					label: "NPM",
 				},
 			],
 			title: "Time Travel",
