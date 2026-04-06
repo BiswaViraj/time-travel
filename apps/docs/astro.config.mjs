@@ -25,7 +25,7 @@ export default defineConfig({
 					label: "GitHub",
 				},
 				{
-					href: "https://www.npmjs.com/package/time-travel",
+					href: "https://www.npmjs.com/package/@biswaviraj/time-travel",
 					icon: "npm",
 					label: "NPM",
 				},
