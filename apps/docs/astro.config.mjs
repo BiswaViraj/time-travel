@@ -5,6 +5,7 @@ import { defineConfig } from "astro/config";
 import starlightThemeRapide from "starlight-theme-rapide";
 
 export default defineConfig({
+	base: "/time-travel",
 	integrations: [
 		starlight({
 			plugins: [starlightThemeRapide()],
@@ -26,4 +27,5 @@ export default defineConfig({
 			title: "Time Travel",
 		}),
 	],
+	site: "https://biswaviraj.github.io",
 });
