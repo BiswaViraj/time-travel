@@ -1,0 +1,4 @@
+.sidebar-pane .top-level > li > a[aria-current="page"].large {
+	color: var(--sl-color-text-accent);
+	font-weight: 600;
+}
