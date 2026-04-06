@@ -10,8 +10,9 @@ Creates a time travel instance.
 ```typescript
 import { timeTravel } from "@biswaviraj/time-travel";
 
-const tt = timeTravel<number>(0);
-const tt = timeTravel<string>("hello", { limit: 20 });
+const counter = timeTravel<number>(0);
+// or with options
+const editor = timeTravel<string>("hello", { limit: 20 });
 ```
 
 ### Parameters
