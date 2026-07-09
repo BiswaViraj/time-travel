@@ -6,10 +6,12 @@ Simple and lightweight undo/redo state management for any JavaScript or TypeScri
 ![Minified + Gzipped size](https://badgen.net/bundlephobia/minzip/@biswaviraj/time-travel)
 ![Minified size](https://badgen.net/bundlephobia/min/@biswaviraj/time-travel)
 
+**Documentation:** [biswaviraj.github.io/time-travel](https://biswaviraj.github.io/time-travel/)
+
 ## Repository Layout
 
 - `packages/time-travel` contains the published npm package.
-- `apps/docs` contains the public Astro/Starlight documentation site.
+- `apps/docs` contains the [documentation site](https://biswaviraj.github.io/time-travel/) (Astro/Starlight).
 
 ## Installation
 
