@@ -39,7 +39,7 @@ tt.redo();   // returns 2
 
 tt.canUndo;  // true
 tt.canRedo;  // true
-tt.size;     // { past: 1, future: 1 }
+tt.size;     // { past: 2, future: 1 }
 ```
 
 ## Features
