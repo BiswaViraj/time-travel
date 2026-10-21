@@ -8,11 +8,11 @@ const entry = {
 export default defineConfig([
 	{
 		clean: true,
+		deps: { neverBundle: ["react"] },
 		dts: {
 			sourcemap: true,
 		},
 		entry,
-		external: ["react"],
 		format: ["esm", "cjs"],
 		minify: false,
 		outDir: "dist",
