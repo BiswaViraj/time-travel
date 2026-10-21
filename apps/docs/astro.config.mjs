@@ -13,7 +13,7 @@ export default defineConfig({
 			sidebar: [
 				{ label: "Getting Started", slug: "getting-started" },
 				{
-					autogenerate: { directory: "api" },
+					items: [{ autogenerate: { directory: "api" } }],
 					label: "API Reference",
 				},
 				{ label: "Examples", slug: "examples" },
