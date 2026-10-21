@@ -6,7 +6,6 @@ on:
       - main
     paths:
       - ".github/workflows/release.yml"
-      - ".releaserc.json"
       - "packages/time-travel/package.json"
       - "pnpm-lock.yaml"
       - "pnpm-workspace.yaml"
@@ -46,6 +45,9 @@ jobs:
         run: pnpm run build:package
 
       - name: Release
+        # Run from the package so semantic-release-monorepo only counts commits that
+        # touch packages/time-travel. Other commits (docs site, tooling) never release.
+        working-directory: packages/time-travel
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: npx --package semantic-release@25 --package @semantic-release/changelog semantic-release
+        run: npx --package semantic-release@25 --package @semantic-release/changelog --package semantic-release-monorepo@8 semantic-release

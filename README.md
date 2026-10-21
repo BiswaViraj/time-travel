@@ -240,6 +240,11 @@ const tt = timeTravel<User>({ id: 1, name: "Alice" });
 
 Contributions welcome! Please open an issue or submit a pull request.
 
+Releases are automated with semantic-release and only count commits that change
+`packages/time-travel/`. A `fix:` or `feat:` commit there publishes a new npm
+version; commits elsewhere (the docs site, tooling, CI) never do, whatever their
+type.
+
 For more information, visit the [GitHub repository](https://github.com/BiswaViraj/time-travel).
 
 ## License
