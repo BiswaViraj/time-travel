@@ -6,7 +6,7 @@
 		"lefthook": "^2.2.2"
 	},
 	"name": "time-travel-workspace",
-	"packageManager": "pnpm@10.32.1",
+	"packageManager": "pnpm@12.14.0",
 	"private": true,
 	"scripts": {
 		"build": "pnpm -r run build",
