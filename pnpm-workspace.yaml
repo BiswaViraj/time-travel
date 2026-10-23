@@ -2,5 +2,6 @@ packages:
   - "apps/*"
   - "packages/*"
 
-onlyBuiltDependencies:
-  - lefthook
+allowBuilds:
+  lefthook: true
+  esbuild: false
